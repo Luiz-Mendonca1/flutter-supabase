@@ -1,5 +1,8 @@
 import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
+import 'package:sqlite_offline/config/supabase.dart';
+import 'package:sqlite_offline/data/repositories/remote_run_repository.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import '../data/repositories/mock_run_repository.dart';
 import '../data/repositories/run_repository.dart';
 import '../domain/use_cases/run/add_run_use_case.dart';
@@ -11,7 +14,9 @@ import '../ui/home/view_models/run/run_view_model.dart';
 List<SingleChildWidget> get providersLocal {
   return [
     Provider<RunRepository>(
-      create: (context) => MockRunRepository(),
+      create: (context) => RemoteRunRepository(
+        client: SupabaseConfig().client,
+      ),
     ),
     Provider<AddRunUseCase>(
       lazy: true,
